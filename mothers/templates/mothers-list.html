@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Mothers</h1>
+
+<a href="{% url "mothers-new" %}">add mother</a>
+
+<ul>
+  {% for mother in object_list %}
+    <li class="Mothers">{{ mother }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

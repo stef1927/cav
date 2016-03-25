@@ -1,0 +1,13 @@
+data/imported/
+data/exported/
+data/mothers.accdb
+data/mothers.sqlite
+data/sqlitebrowser-3.8.0/
+web/static
+bin
+.idea
+include
+lib
+local
+pip-selfcheck.json
+*.pyc

@@ -1,0 +1,8 @@
+{
+  "name": "Centro Aiuto Vita Chiari (BS)",
+  "description": "Applicazioni per il CAV di Chiari.",
+  "image": "heroku/python",
+  "repository": "https://github.com/stef1927/cav",
+  "keywords": ["python", "django" ],
+  "addons": [  ]
+}
