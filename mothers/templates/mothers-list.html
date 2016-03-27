@@ -1,13 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Mothers</h1>
 
-<a href="{% url "mothers-new" %}">add mother</a>
+<h2 class="sub-header">Madri</h2>
 
-<ul>
-  {% for mother in object_list %}
-    <li class="Mothers">{{ mother }}</li>
-  {% endfor %}
-</ul>
+<div class="table-responsive">
+    <table id="mothers-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Data di nascita</th>
+            <th>Luogo</th>
+            <th>Numero figli</th>
+            <th>Ultimo aiuto</th>
+            <th></th>
+        </tr>
+        </thead>
+         <tfoot>
+            <tr>
+               <th>Nome</th>
+                <th>Data di nascita</th>
+                <th>Luogo</th>
+                <th>Numero figli</th>
+                <th>Ultimo aiuto</th>
+                <th></th>
+            </tr>
+        </tfoot>
+
+        <tbody>
+        {% for mother in object_list %}
+        <tr>
+            <td>{{ mother.get_full_name }}</td>
+            <td>{{ mother.get_date_of_birth }}</td>
+            <td>{{ mother.get_place_of_birth }}</td>
+            <td>{{ mother.get_num_children }}</td>
+            <td>{{ mother.get_last_donation }}</td>
+            <td><a href="{{ mother.get_absolute_url }}">Dettagli</a>
+                <a href="{{ mother.get_modify_url }}"> Modifica</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 {% endblock %}

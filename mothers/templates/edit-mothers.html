@@ -1,15 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Add Mother</h1>
+{% if mother.id %}
+<h1>Modifica madre</h1>
+{% else %}
+<h1>Nuova madre</h1>
+{% endif %}
 
-<form action="{% url "mothers-new" %}" method="POST">
+<form action="{{ action }}" method="POST">
   {% csrf_token %}
   <ul>
     {{ form.as_ul }}
   </ul>
-  <input id="save-mother" type="submit" value="Save" />
+  <input id="save-mother" type="submit" value="Salva" />
 </form>
 
-<a href="{% url "mothers-list" %}">back to list</a>
+<a href="{% url "mothers-list" %}">Indietro</a>
 {% endblock %}
