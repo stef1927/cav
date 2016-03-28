@@ -1,6 +1,6 @@
 CREATE TABLE Donations (
   id INTEGER,
-  date_and_time DATE,
+  date_of_donation DATE,
   requested TEXT,
   given TEXT,
   amount DOUBLE,
@@ -27,7 +27,7 @@ CREATE TABLE Mothers (
   origin_country TEXT,
   highest_academic_achievement TEXT,
   job TEXT,
-  registration_date TEXT,
+  registration_date DATE,
   husband_surname TEXT,
   husband_job TEXT,
   city TEXT,

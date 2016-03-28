@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="sub-header">Donazioni</h2>
+
+<div class="table-responsive">
+    <table id="" class="table table-striped table-bordered display" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>Data</th>
+            <th>Richiesto</th>
+            <th>Offerto</th>
+            <th>Importo</th>
+            <th>Madre</th>
+            <th>Operatore</th>
+        </tr>
+        </thead>
+        <tfoot>
+        <tr>
+            <th>Data</th>
+            <th>Richiesto</th>
+            <th>Offerto</th>
+            <th>Importo</th>
+            <th>Madre</th>
+            <th>Operatore</th>
+        </tr>
+        </tfoot>
+
+        <tbody>
+        {% for donation in object_list %}
+        <tr>
+            <td>{{ donation.get_date_of_donation }}</td>
+            <td>{{ donation.get_requested }}</td>
+            <td>{{ donation.get_given }}</td>
+            <td>{{ donation.get_amount }}</td>
+            <td>{{ donation.get_mother }}</td>
+            <td>{{ donation.get_operator }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

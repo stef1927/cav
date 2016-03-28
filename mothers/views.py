@@ -1,7 +1,7 @@
 from django.views.generic import CreateView, DetailView, ListView, UpdateView
 from django.core.urlresolvers import reverse
 
-from mothers.models import Children, Donations, Mothers
+from mothers.models import Children, Donations, Mothers, Operators
 
 
 class ListMothersView(ListView):
@@ -55,10 +55,16 @@ class MotherDetailView(DetailView):
 
 class ListChildrenView(ListView):
     model = Children
+    template_name = 'children-list.html'
 
 
 class ListDonationsView(ListView):
     model = Donations
+    template_name = 'donations-list.html'
 
+
+class ListOperatorsView(ListView):
+    model = Operators
+    template_name = 'operators-list.html'
 
 

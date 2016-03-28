@@ -24,9 +24,10 @@ urlpatterns = [
     url(r'^$', mothers.views.ListMothersView.as_view(), name='mothers-list',),
     url(r'^children$', mothers.views.ListChildrenView.as_view(), name='children-list',),
     url(r'^donations$', mothers.views.ListDonationsView.as_view(), name='donations-list',),
-    url(r'^mothers/new$', mothers.views.CreateMotherView.as_view(), name='mother-new',),
-    url(r'^mothers/edit/(?P<pk>\d+)/$', mothers.views.UpdateMotherView.as_view(), name='mother-edit',),
-    url(r'^mothers/view/(?P<pk>\d+)/$', mothers.views.MotherDetailView.as_view(), name='mother-view',),
+    url(r'^operators$', mothers.views.ListOperatorsView.as_view(), name='operators-list',),
+    url(r'^mother/new$', mothers.views.CreateMotherView.as_view(), name='mother-new',),
+    url(r'^mother/edit/(?P<pk>\d+)/$', mothers.views.UpdateMotherView.as_view(), name='mother-edit',),
+    url(r'^mother/view/(?P<pk>\d+)/$', mothers.views.MotherDetailView.as_view(), name='mother-view',),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
