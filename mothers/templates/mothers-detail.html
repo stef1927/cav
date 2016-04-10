@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if object.id %}
+<h1>{{object.name}} {{object.surname}}</h1>
+{% else %}
+<h1>Nuova madre</h1>
+{% endif %}
+
+
+{% load mothers_filters %}
+
+<form class="form-inline" role="form" action="{{ action }}" method="POST">
+    {% csrf_token %}
+
+    <div class="container-fluid">
+        {{ form.non_field_errors }}
+        <div class="col-sm-8 col-md-8">
+            {% if form.disabled %}<fieldset disabled>{%endif %}
+            <table id="rows-table" class="table table-no-border">
+                <tbody>
+                    {% for row in form.rows %}
+                        <tr>
+                            {% for field in row %}
+                            <td>
+                                {{ field.label_tag }}
+                            </td>
+                            {% if field in form.large_fields %}<td colspan="3">{% else %}<td>{% endif %}
+                                <div class="input-group" style="width:100%;">
+                                    {{ field.errors }}
+                                    {% if field in form.date_fields %}
+                                        {{ field|addclass:'form-control date-picker' }}
+                                        <label for="{{ field.id_for_label }}" class="input-group-addon btn">
+                                            <span class="glyphicon glyphicon-calendar"></span></label>
+                                    {% else %}
+                                        {{ field|addclass:'form-control' }}
+                                    {% endif %}
+
+
+                                    {% if field.help_text %}
+                                        <p class="help">{{ field.help_text|safe }}</p>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if form.disabled %}</fieldset>{%endif %}
+        </div>
+
+        <div class="col-sm-2 col-md-2">
+            <input id="new-mother-btn" type="submit" class="btn btn-primary btn-lg btn-block" value="Nuova" />
+            <input id="print-mother-btn" type="submit" class="btn btn-primary btn-lg btn-block" value="Stampa" />
+            {% if form.disabled %}
+            <input id="modify-mother-btn" type="submit" class="btn btn-primary btn-lg btn-block" value="Modifica" />
+            {% else %}
+            <input id="save-mother-btn" type="submit" class="btn btn-primary btn-lg btn-block" value="Salva" />
+            <input id="cancel-mother-detail-btn" type="submit" class="btn btn-primary btn-lg btn-block" value="Annulla" />
+            {% endif %}
+        </div>
+    </div>
+
+</form>
+
+{% endblock %}

@@ -3,6 +3,8 @@ from django.core.urlresolvers import reverse
 
 from mothers.models import Children, Donations, Mothers, Operators
 
+import forms
+
 
 class ListMothersView(ListView):
     model = Mothers
@@ -11,25 +13,23 @@ class ListMothersView(ListView):
 
 class CreateMotherView(CreateView):
     model = Mothers
-    fields = '__all__'
-    template_name = 'edit-mothers.html'
+    template_name = 'mothers-detail.html'
+    form_class = forms.MotherForm
 
     @staticmethod
     def get_success_url():
         return reverse('mothers-list')
 
     def get_context_data(self, **kwargs):
-
         context = super(CreateMotherView, self).get_context_data(**kwargs)
         context['action'] = reverse('mother-new')
-
         return context
 
 
 class UpdateMotherView(UpdateView):
     model = Mothers
-    fields = '__all__'
-    template_name = 'edit-mothers.html'
+    template_name = 'mothers-detail.html'
+    form_class = forms.MotherForm
 
     @staticmethod
     def get_success_url():
@@ -37,20 +37,27 @@ class UpdateMotherView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(UpdateMotherView, self).get_context_data(**kwargs)
-        context['action'] = reverse('mother-edit',
-                                    kwargs={'pk': self.get_object().id})
-
+        context['action'] = reverse('mother-edit', kwargs={'pk': self.get_object().id})
         return context
 
 
-class MotherDetailView(DetailView):
+class MotherDetailsView(UpdateView):
     model = Mothers
-    template_name = 'mother.html'
-    context_object_name = 'mother'
+    template_name = 'mothers-detail.html'
+    form_class = forms.MotherForm
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(MotherDetailView, self).get_context_data(**kwargs)
-    #     return context
+    @staticmethod
+    def get_success_url():
+        return reverse('mothers-list')
+
+    def get_context_data(self, **kwargs):
+        context = super(MotherDetailsView, self).get_context_data(**kwargs)
+        context['action'] = reverse('mother-view', kwargs={'pk': self.get_object().id})
+
+        form = context['form']
+        form.disabled = True
+
+        return context
 
 
 class ListChildrenView(ListView):

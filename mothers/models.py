@@ -22,6 +22,27 @@ def format_date(date):
     return date.strftime('%d %b %Y') if date else missing()
 
 
+class Operators(models.Model):
+    id = models.IntegerField(blank=False, null=False, primary_key=True)
+    name = models.TextField(blank=False, null=False)
+
+    def get_absolute_url(self):
+        return reverse('operator-view', kwargs={'pk': self.id})
+
+    def get_modify_url(self):
+        return reverse('operator-edit', kwargs={'pk': self.id})
+
+    def __str__(self):
+        return self.get_name()
+
+    def get_name(self):
+        return format_text(self.name)
+
+    class Meta:
+        managed = False
+        db_table = 'Operators'
+
+
 class Mothers(models.Model):
     id = models.IntegerField(blank=False, null=False, primary_key=True)
     surname = models.TextField(blank=False, null=False)
@@ -40,7 +61,7 @@ class Mothers(models.Model):
     address = models.TextField(blank=True, null=True)
     income = models.FloatField(blank=True, null=True)
     fixed_expenditures = models.FloatField(blank=True, null=True)
-    operator = models.IntegerField(blank=False, null=False)
+    operator = models.ForeignKey(Operators, db_column='operator', null=False, default=0, on_delete=models.SET_DEFAULT)
     phone_1 = models.TextField(blank=True, null=True)
     phone_2 = models.TextField(blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
@@ -84,27 +105,6 @@ class Mothers(models.Model):
     class Meta:
         managed = False
         db_table = 'Mothers'
-
-
-class Operators(models.Model):
-    id = models.IntegerField(blank=False, null=False, primary_key=True)
-    name = models.TextField(blank=False, null=False)
-
-    def get_absolute_url(self):
-        return reverse('operator-view', kwargs={'pk': self.id})
-
-    def get_modify_url(self):
-        return reverse('operator-edit', kwargs={'pk': self.id})
-
-    def __str__(self):
-        return self.get_name()
-
-    def get_name(self):
-        return format_text(self.name)
-
-    class Meta:
-        managed = False
-        db_table = 'Operators'
 
 
 class Children(models.Model):

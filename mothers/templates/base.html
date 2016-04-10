@@ -31,6 +31,48 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- Bootstrap core JavaScript and other jQuery plugins
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+    <!-- Date parsing-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
+
+    <!-- Twitter bootstrap  -->
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/transition.js' %}"></script>
+    <script src="{% static 'bootstrap/js/collapse.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap-datepicker.min.js' %}"></script>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="{% static 'bootstrap/assets/js/ie10-viewport-bug-workaround.js' %}"></script>
+
+    <!-- Datatables plugin for generating enhanced tables with pagination and stuff -->
+    <!-- https://datatables.net/ -->
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
+
+    <!-- Attach datatables to tables requiring pagination and stuff-->
+    <script type="text/javascript">
+        try {
+            $(document).ready(function() {
+                $('table.display').dataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Italian.json"
+                    }
+                });
+
+                $(".date-picker").datepicker({ format: 'dd/mm/yyyy' });
+            });
+        }
+        catch(err) {
+            window.alert(err.message);
+        }
+    </script>
+
 </head>
 
 <body>
@@ -78,41 +120,6 @@
         </div>
     </div>
 </div>
-
-
-<!-- Bootstrap core JavaScript and other jQuery plugins
-======================================================= -->
-<!-- Placed at the end of the document so the pages load faster -->
-
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-1.12.2.min.js"></script>
-
-<!-- All compiled boostrap plugins -->
-<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="{% static 'bootstrap/assets/js/ie10-viewport-bug-workaround.js' %}"></script>
-
-<!-- Datatables plugin for generating enhanced tables with pagination and stuff -->
-<!-- https://datatables.net/ -->
-<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
-
-<!-- Attach datatables to tables requiring pagination and stuff-->
-<script type="text/javascript">
-    try {
-        $(document).ready(function() {
-            $('table.display').dataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Italian.json"
-                }
-            });
-        });
-    }
-    catch(err) {
-        window.alert(err.message);
-    }
-</script>
 
 </body>
 </html>

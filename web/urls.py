@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^operators$', mothers.views.ListOperatorsView.as_view(), name='operators-list',),
     url(r'^mother/new$', mothers.views.CreateMotherView.as_view(), name='mother-new',),
     url(r'^mother/edit/(?P<pk>\d+)/$', mothers.views.UpdateMotherView.as_view(), name='mother-edit',),
-    url(r'^mother/view/(?P<pk>\d+)/$', mothers.views.MotherDetailView.as_view(), name='mother-view',),
+    url(r'^mother/view/(?P<pk>\d+)/$', mothers.views.MotherDetailsView.as_view(), name='mother-view',),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

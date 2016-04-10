@@ -3,6 +3,7 @@ data/exported/
 data/mothers.accdb
 data/mothers.sqlite
 data/sqlitebrowser-3.8.0/
+data/orig/
 web/static
 bin
 .idea
