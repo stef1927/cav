@@ -55,7 +55,11 @@
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.11/js/dataTables.bootstrap.min.js"></script>
 
-    <!-- Attach datatables to tables requiring pagination and stuff-->
+    <!-- include summernote css/js-->
+    <link  href="{% static 'summernote-0.8.1/summernote.css' %}" rel="stylesheet">
+    <script src="{% static 'summernote-0.8.1/summernote.min.js' %}"></script>
+
+    <!-- Attach datatables to tables requiring pagination and date pickers to date input fields-->
     <script type="text/javascript">
         try {
             $(document).ready(function() {
@@ -66,6 +70,8 @@
                 });
 
                 $(".date-picker").datepicker({ format: 'dd/mm/yyyy' });
+
+                $(".summernote").summernote();
             });
         }
         catch(err) {

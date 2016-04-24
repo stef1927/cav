@@ -34,7 +34,7 @@ class MotherForm(forms.ModelForm):
     income = forms.FloatField(label='Entrate', min_value=0)
     fixed_expenditures = forms.FloatField(label='Uscite fisse', min_value=0)
 
-    notes = forms.CharField(label='Osservazioni', widget=forms.Textarea)
+    notes = forms.CharField(label='Osservazioni', widget=forms.Textarea(attrs={'class': 'summernote'}))
 
     class Meta:
         model = Mothers

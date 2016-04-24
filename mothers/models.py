@@ -102,6 +102,9 @@ class Mothers(models.Model):
     def get_num_children(self):
         return len(self.get_children())
 
+    def get_donations(self):
+        return Donations.objects.filter(mother__exact=self.id)
+
     class Meta:
         managed = False
         db_table = 'Mothers'
