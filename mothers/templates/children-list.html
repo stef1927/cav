@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
+{% block ng_controller %}ListCtrl{% endblock %}
+
 {% block content %}
+{% verbatim %}
 
 <h2 class="sub-header">Bambini</h2>
 
@@ -24,16 +27,15 @@
         </tfoot>
 
         <tbody>
-        {% for child in object_list %}
-        <tr>
-            <td>{{ child.get_name }}</td>
-            <td>{{ child.get_date_of_birth }}</td>
-            <td>{{ child.get_sex }}</td>
-            <td>{{ child.get_mother }}</td>
+        <tr ng-repeat="child in items">
+            <td>{{ child.name }}</td>
+            <td>{{ child.date_of_birth }}</td>
+            <td>{{ child.sex }}</td>
+            <td>{{ child.mother }}</td>
         </tr>
-        {% endfor %}
         </tbody>
     </table>
 </div>
 
+{% endverbatim %}
 {% endblock %}

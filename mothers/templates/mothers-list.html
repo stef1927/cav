@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
+{% block ng_controller %}ListCtrl{% endblock %}
+
 {% block content %}
+{% verbatim %}
 
 <h2 class="sub-header">Madri</h2>
 
@@ -34,23 +37,21 @@
         </tfoot>
 
         <tbody>
-        {% for mother in object_list %}
-        <tr>
-            <td>{{ mother.get_full_name }}</td>
-            <td>{{ mother.get_date_of_birth }}</td>
-            <td>{{ mother.get_place_of_birth }}</td>
-            <td>{{ mother.get_registration_date }}</td>
-            <td>{{ mother.get_civil_status }}</td>
-            <td>{{ mother.get_origin_country }}</td>
-            <td>{{ mother.get_residency }}</td>
-            <td>{{ mother.get_num_children }}</td>
-            <td><a href="{{ mother.get_absolute_url }}">Dettagli</a>
-                <a href="{{ mother.get_modify_url }}"> Modifica</a>
+        <tr ng-repeat="mother in items">
+            <td>{{ mother.full_name }}</td>
+            <td>{{ mother.date_of_birth }}</td>
+            <td>{{ mother.place_of_birth }}</td>
+            <td>{{ mother.registration_date }}</td>
+            <td>{{ mother.civil_status }}</td>
+            <td>{{ mother.origin_country }}</td>
+            <td>{{ mother.residency }}</td>
+            <td>{{ mother.num_children }}</td>
+            <td><a href="{{ mother.absolute_url }}"> Dettagli</a>
             </td>
         </tr>
-        {% endfor %}
         </tbody>
     </table>
 </div>
 
+{% endverbatim %}
 {% endblock %}

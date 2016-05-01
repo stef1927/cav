@@ -9,8 +9,8 @@ class MotherForm(forms.ModelForm):
     registration_date = forms.DateField(label='Data Registrazione', required=True, widget=forms.DateInput(format='%d/%m/%Y'))
     operator = forms.ModelChoiceField(label='Operatore', required=True, queryset=Operators.objects.all())
 
-    name = forms.CharField(label='Nome', required='True')
-    surname = forms.CharField(label='Cognome', required='True')
+    name = forms.CharField(label='Nome', required=True)
+    surname = forms.CharField(label='Cognome', required=True)
     husband_surname = forms.CharField(label='Cognome Marito')
 
     place_of_birth = forms.CharField(label='Luogo nascita', required=True)

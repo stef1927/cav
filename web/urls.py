@@ -19,15 +19,37 @@ from django.contrib import admin
 
 import mothers.views
 
+mothers_urls = [
+    url(r'^(?P<pk>\d+)$', mothers.views.MotherDetailsView.as_view(), name='mother-details'),
+    url(r'^$', mothers.views.MothersListView.as_view(), name='mother-list'),
+    url(r'^(?P<pk>\d+)/apis$', mothers.views.MotherDetails.as_view(), name='mother-details-apis'),
+    url(r'^apis$', mothers.views.MothersList.as_view(), name='mother-list-apis'),
+    url(r'^new$', mothers.views.MotherDetails.as_view(), name='mother-new')
+]
+
+children_urls = [
+    url(r'^$', mothers.views.ChildrenListView.as_view(), name='children-list'),
+    url(r'^apis$', mothers.views.ChildrenList.as_view(), name='children-list-apis'),
+]
+
+donations_urls = [
+    url(r'^$', mothers.views.DonationsListView.as_view(), name='donations-list'),
+    url(r'^apis$', mothers.views.DonationsList.as_view(), name='donations-list-apis'),
+]
+
+operators_urls = [
+    url(r'^$', mothers.views.OperatorsListView.as_view(), name='operators-list'),
+    url(r'^apis$', mothers.views.OperatorsList.as_view(), name='operators-list-apis'),
+]
+
 urlpatterns = [
+    url(r'^$', mothers.views.MothersListView.as_view(), name='mother-list'),
+    url(r'^mothers/', include(mothers_urls)),
+    url(r'^children/', include(mothers_urls)),
+    url(r'^donations/', include(mothers_urls)),
+    url(r'^operators/', include(mothers_urls)),
     url(r'^admin/', admin.site.urls),
-    url(r'^$', mothers.views.ListMothersView.as_view(), name='mothers-list',),
-    url(r'^children$', mothers.views.ListChildrenView.as_view(), name='children-list',),
-    url(r'^donations$', mothers.views.ListDonationsView.as_view(), name='donations-list',),
-    url(r'^operators$', mothers.views.ListOperatorsView.as_view(), name='operators-list',),
-    url(r'^mother/new$', mothers.views.CreateMotherView.as_view(), name='mother-new',),
-    url(r'^mother/edit/(?P<pk>\d+)/$', mothers.views.UpdateMotherView.as_view(), name='mother-edit',),
-    url(r'^mother/view/(?P<pk>\d+)/$', mothers.views.MotherDetailsView.as_view(), name='mother-view',),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

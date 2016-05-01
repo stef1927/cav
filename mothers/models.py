@@ -26,12 +26,6 @@ class Operators(models.Model):
     id = models.IntegerField(blank=False, null=False, primary_key=True)
     name = models.TextField(blank=False, null=False)
 
-    def get_absolute_url(self):
-        return reverse('operator-view', kwargs={'pk': self.id})
-
-    def get_modify_url(self):
-        return reverse('operator-edit', kwargs={'pk': self.id})
-
     def __str__(self):
         return self.get_name()
 
@@ -67,10 +61,7 @@ class Mothers(models.Model):
     notes = models.TextField(blank=True, null=True)
 
     def get_absolute_url(self):
-        return reverse('mother-view', kwargs={'pk': self.id})
-
-    def get_modify_url(self):
-        return reverse('mother-edit', kwargs={'pk': self.id})
+        return reverse('mother-details', kwargs={'pk': self.id})
 
     def __str__(self):
         return self.get_full_name()
@@ -118,10 +109,7 @@ class Children(models.Model):
     mother = models.ForeignKey(Mothers, db_column='mother', default=0, on_delete=models.CASCADE)
 
     def get_absolute_url(self):
-        return reverse('child-view', kwargs={'pk': self.id})
-
-    def get_modify_url(self):
-        return reverse('child-edit', kwargs={'pk': self.id})
+        return reverse('child-details', kwargs={'pk': self.id})
 
     def __str__(self):
         return self.get_name() + ', (' + str(self.get_mother()) + ')'
@@ -156,10 +144,7 @@ class Donations(models.Model):
     operator = models.ForeignKey(Operators, db_column='operator', null=False, default=0, on_delete=models.SET_DEFAULT)
 
     def get_absolute_url(self):
-        return reverse('donation-view', kwargs={'pk': self.id})
-
-    def get_modify_url(self):
-        return reverse('donation-edit', kwargs={'pk': self.id})
+        return reverse('donation-details', kwargs={'pk': self.id})
 
     def __str__(self):
         return self.get_given() + '(' + self.get_date_of_donation() + ')'

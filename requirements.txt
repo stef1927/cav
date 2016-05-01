@@ -2,3 +2,6 @@ dj-database-url==0.4.0
 Django==1.9.2
 gunicorn==19.4.5
 whitenoise==2.0.6
+djangorestframework=3.3.3
+markdown=2.6.6
+django-filter=0.13.0

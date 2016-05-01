@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
+{% block ng_controller %}ListCtrl{% endblock %}
+
 {% block content %}
+{% verbatim %}
 
 <h2 class="sub-header">Operatori</h2>
 
@@ -20,14 +23,13 @@
         </tfoot>
 
         <tbody>
-        {% for operator in object_list %}
-        <tr>
+        <tr ng-repeat="operator in items">
             <td>{{ operator.id }}</td>
-            <td>{{ operator.get_name }}</td>
+            <td>{{ operator.name }}</td>
         </tr>
-        {% endfor %}
         </tbody>
     </table>
 </div>
 
+{% endverbatim %}
 {% endblock %}

@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
+{% block ng_controller %}ListCtrl{% endblock %}
+
 {% block content %}
+{% verbatim %}
 
 <h2 class="sub-header">Donazioni</h2>
 
@@ -28,18 +31,17 @@
         </tfoot>
 
         <tbody>
-        {% for donation in object_list %}
-        <tr>
-            <td>{{ donation.get_date_of_donation }}</td>
-            <td>{{ donation.get_requested }}</td>
-            <td>{{ donation.get_given }}</td>
-            <td>{{ donation.get_amount }}</td>
-            <td>{{ donation.get_mother }}</td>
-            <td>{{ donation.get_operator }}</td>
+        <tr ng-repeat="donation in items">
+            <td>{{ donation.date_of_donation }}</td>
+            <td>{{ donation.requested }}</td>
+            <td>{{ donation.given }}</td>
+            <td>{{ donation.amount }}</td>
+            <td>{{ donation.mother }}</td>
+            <td>{{ donation.operator }}</td>
         </tr>
-        {% endfor %}
         </tbody>
     </table>
 </div>
 
+{% endverbatim %}
 {% endblock %}
