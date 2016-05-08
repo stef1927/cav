@@ -116,3 +116,40 @@ body {
 .table-no-border>tfoot>tr>td {
   border-top: none;
 }
+
+/*
+ * Sorting icons in smart table
+ *
+
+.sortable {
+    cursor: pointer;
+}
+.sortable:after {
+    content: url(data:image/gif;base64,R0lGODlhCwALAJEAAAAAAP///xUVFf///yH5BAEAAAMALAAAAAALAAsAAAIUnC2nKLnT4or00PvyrQwrPzUZshQAOw==);
+    padding-left: 1em;
+}
+.st-sort-ascent:after {
+    content: '\25B2';
+}
+.st-sort-descent:after {
+    content: '\25BC';
+}
+*/
+
+.sortable {
+    cursor: pointer;
+}
+.sortable:after {
+  font-family: "Glyphicons Halflings";
+  content: "\E150";
+  padding-left: 1em;
+}
+.st-sort-ascent:after {
+  font-family: "Glyphicons Halflings";
+  content:"\E155";
+
+}
+.st-sort-descent:after {
+  font-family: "Glyphicons Halflings";
+  content:"\E156";
+}

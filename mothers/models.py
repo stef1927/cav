@@ -15,7 +15,8 @@ def missing():
 
 
 def format_text(text):
-    return text.encode('utf-8') if text else missing()
+    return text if text else missing()
+    #return text.encode('utf-8') if text else missing()
 
 
 def format_date(date):
@@ -27,6 +28,9 @@ class Operators(models.Model):
     name = models.TextField(blank=False, null=False)
 
     def __str__(self):
+        return self.get_name()
+
+    def __unicode__(self):
         return self.get_name()
 
     def get_name(self):
@@ -64,6 +68,9 @@ class Mothers(models.Model):
         return reverse('mother-details', kwargs={'pk': self.id})
 
     def __str__(self):
+        return self.get_full_name()
+
+    def __unicode__(self):
         return self.get_full_name()
 
     def get_full_name(self):
@@ -106,13 +113,16 @@ class Children(models.Model):
     name = models.TextField(blank=False, null=False)
     date_of_birth = models.DateField(blank=False, null=False)
     sex = models.CharField(blank=True, null=True, max_length=1)
-    mother = models.ForeignKey(Mothers, db_column='mother', default=0, on_delete=models.CASCADE)
+    mother = models.ForeignKey(Mothers, db_column='mother', default=0, on_delete=models.CASCADE, related_name='children')
 
     def get_absolute_url(self):
         return reverse('child-details', kwargs={'pk': self.id})
 
     def __str__(self):
-        return self.get_name() + ', (' + str(self.get_mother()) + ')'
+        return self.get_name()
+
+    def __unicode__(self):
+        return self.get_name()
 
     def get_name(self):
         return format_text(self.name)
@@ -149,6 +159,9 @@ class Donations(models.Model):
     def __str__(self):
         return self.get_given() + '(' + self.get_date_of_donation() + ')'
 
+    def __unicode__(self):
+        return self.get_given() + '(' + self.get_date_of_donation() + ')'
+
     def get_date_of_donation(self):
         return format_date(self.date_of_donation)
 
@@ -159,7 +172,11 @@ class Donations(models.Model):
         return format_text(self.given)
 
     def get_amount(self):
-        return self.amount if self.amount is not None else 0.0
+        try:
+            return float(self.amount) if self.amount else 0.0
+        except ValueError:
+            print "Failed to convert {} to float".format(self.amount)
+            return 0.0
 
     def get_mother(self):
         return self.mother if self.operator else missing()

@@ -30,20 +30,26 @@ class MotherSerializer(serializers.ModelSerializer):
 
 
 class ChildSerializer(serializers.ModelSerializer):
-    #mother = serializers.HyperlinkedIdentityField('mother', view_name='mother-details', lookup_field='mother')
+    name = serializers.CharField(source="get_name")
+    date_of_birth = serializers.CharField(source="get_date_of_birth")
+    sex = serializers.CharField(source="get_sex")
+    mother_name = serializers.StringRelatedField(source='mother')
+    mother_link = serializers.HyperlinkedRelatedField(source='mother', read_only='True', view_name='mother-details')
 
     class Meta:
         model = Children
-        fields = ('id', 'name', 'date_of_birth', 'sex')
+        fields = ('id', 'name', 'date_of_birth', 'sex', 'mother_name', 'mother_link')
 
 
 class DonationSerializer(serializers.ModelSerializer):
-    #mother = serializers.HyperlinkedIdentityField('mother', view_name='mother-details', lookup_field='mother')
-    #operator
+    amount = serializers.FloatField(source='get_amount', read_only=True)
+    mother_name = serializers.StringRelatedField(source='mother')
+    mother_link = serializers.HyperlinkedRelatedField(source='mother', read_only='True', view_name='mother-details')
+    operator = serializers.StringRelatedField()
 
     class Meta:
         model = Donations
-        fields = ('id', 'date_of_donation', 'requested', 'given', 'amount')
+        fields = ('id', 'date_of_donation', 'requested', 'given', 'amount', 'mother_name', 'mother_link', 'operator')
 
 
 class OperatorSerializer(serializers.ModelSerializer):

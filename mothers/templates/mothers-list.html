@@ -1,55 +1,56 @@
 {% extends "base.html" %}
 
-{% block ng_controller %}ListCtrl{% endblock %}
+{% block ng_controller %}MothersListCtrl{% endblock %}
 
 {% block content %}
 {% verbatim %}
 
 <h2 class="sub-header">Madri</h2>
 
-<div class="table-responsive">
+<div st-table="displayedItems" st-safe-src="rowItems" class="table-responsive">
+
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <label>Cerca:</label>
+            <input st-search="full_name" placeholder="cerca per nome" class="input-sm form-control" type="search"/>
+        </div>
+    </form>
+
     <table id="" class="table table-striped table-bordered display" cellspacing="0" width="100%">
         <thead>
         <tr>
-            <th>Nome</th>
-            <th>Data nascita</th>
-            <th>Luogo nascita</th>
-            <th>Data registr.</th>
-            <th>Stato civile</th>
-            <th>Stato di prov.</th>
-            <th>Resid.</th>
-            <th>Figli</th>
-            <th></th>
+            <th class="sortable" st-sort="full_name">Nome</th>
+            <th class="sortable" st-sort="date_of_birth">Data nascita</th>
+            <th class="sortable" st-sort="place_of_birth">Luogo nascita</th>
+            <th class="sortable" st-sort="registration_date">Data registr.</th>
+            <th class="sortable" st-sort="civil_status">Stato civile</th>
+            <th class="sortable" st-sort="origin_country">Stato di prov.</th>
+            <th class="sortable" st-sort="residency">Resid.</th>
+            <th class="sortable" st-sort="num_children">Figli</th>
         </tr>
+
         </thead>
-        <tfoot>
-        <tr>
-            <th>Nome</th>
-            <th>Data nascita</th>
-            <th>Luogo nascita</th>
-            <th>Data registr.</th>
-            <th>Stato civile</th>
-            <th>Stato di prov.</th>
-            <th>Resid.</th>
-            <th>Figli</th>
-            <th></th>
-        </tr>
-        </tfoot>
 
         <tbody>
-        <tr ng-repeat="mother in items">
-            <td>{{ mother.full_name }}</td>
-            <td>{{ mother.date_of_birth }}</td>
-            <td>{{ mother.place_of_birth }}</td>
-            <td>{{ mother.registration_date }}</td>
-            <td>{{ mother.civil_status }}</td>
-            <td>{{ mother.origin_country }}</td>
-            <td>{{ mother.residency }}</td>
-            <td>{{ mother.num_children }}</td>
-            <td><a href="{{ mother.absolute_url }}"> Dettagli</a>
+        <tr ng-repeat="item in displayedItems">
+            <td><a href="{{item.absolute_url}}">{{ item.full_name }}</a></td>
+            <td>{{ item.date_of_birth }}</td>
+            <td>{{ item.place_of_birth }}</td>
+            <td>{{ item.registration_date }}</td>
+            <td>{{ item.civil_status }}</td>
+            <td>{{ item.origin_country }}</td>
+            <td>{{ item.residency }}</td>
+            <td>{{ item.num_children }}</td>
             </td>
         </tr>
         </tbody>
+
+        <tfoot>
+            <tr>
+                <td class="text-center" st-pagination="" st-items-by-page="10" st-template="pagination" colspan="9">
+            </tr>
+        </tfoot>
+
     </table>
 </div>
 

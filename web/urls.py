@@ -16,38 +16,43 @@ Including another URLconf
 from django.conf.urls import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
+from django.views.generic import TemplateView
 
 import mothers.views
 
 mothers_urls = [
-    url(r'^(?P<pk>\d+)$', mothers.views.MotherDetailsView.as_view(), name='mother-details'),
     url(r'^$', mothers.views.MothersListView.as_view(), name='mother-list'),
-    url(r'^(?P<pk>\d+)/apis$', mothers.views.MotherDetails.as_view(), name='mother-details-apis'),
     url(r'^apis$', mothers.views.MothersList.as_view(), name='mother-list-apis'),
-    url(r'^new$', mothers.views.MotherDetails.as_view(), name='mother-new')
+    url(r'^(?P<pk>\d+)$', mothers.views.MotherDetailsView.as_view(), name='mother-details'),
+    url(r'^(?P<pk>\d+)/apis$', mothers.views.MotherDetails.as_view(), name='mother-details-apis'),
+    url(r'^new$', mothers.views.MotherDetails.as_view(), name='mother-new'),
+    url(r'^pagination$', TemplateView.as_view(template_name='pagination.html')),
 ]
 
 children_urls = [
     url(r'^$', mothers.views.ChildrenListView.as_view(), name='children-list'),
     url(r'^apis$', mothers.views.ChildrenList.as_view(), name='children-list-apis'),
+    url(r'^pagination$', TemplateView.as_view(template_name='pagination.html')),
 ]
 
 donations_urls = [
     url(r'^$', mothers.views.DonationsListView.as_view(), name='donations-list'),
     url(r'^apis$', mothers.views.DonationsList.as_view(), name='donations-list-apis'),
+    url(r'^pagination$', TemplateView.as_view(template_name='pagination.html')),
 ]
 
 operators_urls = [
     url(r'^$', mothers.views.OperatorsListView.as_view(), name='operators-list'),
     url(r'^apis$', mothers.views.OperatorsList.as_view(), name='operators-list-apis'),
+    url(r'^pagination$', TemplateView.as_view(template_name='pagination.html')),
 ]
 
 urlpatterns = [
     url(r'^$', mothers.views.MothersListView.as_view(), name='mother-list'),
     url(r'^mothers/', include(mothers_urls)),
-    url(r'^children/', include(mothers_urls)),
-    url(r'^donations/', include(mothers_urls)),
-    url(r'^operators/', include(mothers_urls)),
+    url(r'^children/', include(children_urls)),
+    url(r'^donations/', include(donations_urls)),
+    url(r'^operators/', include(operators_urls)),
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
