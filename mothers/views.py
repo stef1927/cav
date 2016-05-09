@@ -6,7 +6,8 @@ from django.utils.encoding import force_text
 from rest_framework import generics, permissions
 
 from mothers.models import Children, Donations, Mothers, Operators
-from mothers.serializers import ChildSerializer, DonationSerializer, MotherSerializer, OperatorSerializer
+from mothers.serializers import ChildSerializer, DonationSerializer, \
+    MotherSerializer, MotherDetailsSerializer, OperatorSerializer
 
 
 class SafeMethodsOnlyPermission(permissions.BasePermission):
@@ -18,18 +19,10 @@ class SafeMethodsOnlyPermission(permissions.BasePermission):
         return request.method in permissions.SAFE_METHODS
 
 
-class MotherCanEditPermission(SafeMethodsOnlyPermission):
+class CanEditPermission(SafeMethodsOnlyPermission):
     def has_object_permission(self, request, view, obj=None):
         can_edit = True  # FIXME
-        return can_edit or super(MotherCanEditPermission, self).has_object_permission(request, view, obj)
-
-
-class MothersListView(TemplateView):
-    template_name = "mothers-list.html"
-
-
-class MotherDetailsView(TemplateView):
-    template_name = "mother-details.html"
+        return can_edit or super(CanEditPermission, self).has_object_permission(request, view, obj)
 
 
 class MotherMixin(object):
@@ -37,11 +30,8 @@ class MotherMixin(object):
     queryset = Mothers.objects.all()
     serializer_class = MotherSerializer
     permission_classes = [
-        MotherCanEditPermission
+        CanEditPermission
     ]
-
-    def perform_create(self, serializer):
-        serializer.save(operator=self.request.user)
 
 
 class MothersList(MotherMixin, generics.ListCreateAPIView):
@@ -50,43 +40,47 @@ class MothersList(MotherMixin, generics.ListCreateAPIView):
     ]
 
 
-class MotherDetails(MotherMixin, generics.RetrieveAPIView):
-    lookup_field = 'id'
+class MotherDetails(MotherMixin, generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'pk'
+    serializer_class = MotherDetailsSerializer
 
 
-class ChildrenListView(ListView):
-    model = Children
-    template_name = 'children-list.html'
-
-
-class ChildrenList(generics.ListCreateAPIView):
+class ChildMixin(object):
     model = Children
     queryset = Children.objects.all()
     serializer_class = ChildSerializer
+    permission_classes = [
+        CanEditPermission
+    ]
 
+
+class ChildrenList(ChildMixin, generics.ListCreateAPIView):
     permission_classes = [
         permissions.AllowAny
     ]
 
 
-class DonationsListView(ListView):
-    model = Donations
-    template_name = 'donations-list.html'
+class ChildDetails(ChildMixin, generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'pk'
 
 
-class DonationsList(generics.ListCreateAPIView):
+class DonationMixin(object):
     model = Donations
     queryset = Donations.objects.all()
     serializer_class = DonationSerializer
+    permission_classes = [
+        CanEditPermission
+    ]
 
+
+class DonationsList(DonationMixin, generics.ListCreateAPIView):
     permission_classes = [
         permissions.AllowAny
     ]
 
 
-class OperatorsListView(ListView):
-    model = Operators
-    template_name = 'operators-list.html'
+class DonationDetails(DonationMixin, generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'pk'
 
 
 class OperatorsList(generics.ListCreateAPIView):

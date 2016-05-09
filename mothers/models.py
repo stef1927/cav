@@ -16,7 +16,6 @@ def missing():
 
 def format_text(text):
     return text if text else missing()
-    #return text.encode('utf-8') if text else missing()
 
 
 def format_date(date):
@@ -24,7 +23,6 @@ def format_date(date):
 
 
 class Operators(models.Model):
-    id = models.IntegerField(blank=False, null=False, primary_key=True)
     name = models.TextField(blank=False, null=False)
 
     def __str__(self):
@@ -42,7 +40,6 @@ class Operators(models.Model):
 
 
 class Mothers(models.Model):
-    id = models.IntegerField(blank=False, null=False, primary_key=True)
     surname = models.TextField(blank=False, null=False)
     name = models.TextField(blank=False, null=False)
     date_of_birth = models.DateField()
@@ -65,7 +62,7 @@ class Mothers(models.Model):
     notes = models.TextField(blank=True, null=True)
 
     def get_absolute_url(self):
-        return reverse('mother-details', kwargs={'pk': self.id})
+        return reverse('mother-details-template', kwargs={'pk': self.id})
 
     def __str__(self):
         return self.get_full_name()
@@ -109,14 +106,10 @@ class Mothers(models.Model):
 
 
 class Children(models.Model):
-    id = models.IntegerField(blank=False, null=False, primary_key=True)
     name = models.TextField(blank=False, null=False)
     date_of_birth = models.DateField(blank=False, null=False)
     sex = models.CharField(blank=True, null=True, max_length=1)
     mother = models.ForeignKey(Mothers, db_column='mother', default=0, on_delete=models.CASCADE, related_name='children')
-
-    def get_absolute_url(self):
-        return reverse('child-details', kwargs={'pk': self.id})
 
     def __str__(self):
         return self.get_name()
@@ -145,16 +138,13 @@ class Children(models.Model):
 
 
 class Donations(models.Model):
-    id = models.IntegerField(blank=False, null=False, primary_key=True)
     date_of_donation = models.DateField(blank=False, null=False)
     requested = models.TextField(blank=True, null=True)
     given = models.TextField(blank=True, null=True)
     amount = models.FloatField(blank=True, null=True)
-    mother = models.ForeignKey(Mothers, db_column='mother', null=False, default=0, on_delete=models.SET_DEFAULT)
+    mother = models.ForeignKey(Mothers, db_column='mother', null=False, default=0, on_delete=models.SET_DEFAULT,
+                               related_name='donations')
     operator = models.ForeignKey(Operators, db_column='operator', null=False, default=0, on_delete=models.SET_DEFAULT)
-
-    def get_absolute_url(self):
-        return reverse('donation-details', kwargs={'pk': self.id})
 
     def __str__(self):
         return self.get_given() + '(' + self.get_date_of_donation() + ')'

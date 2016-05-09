@@ -4,50 +4,182 @@
 
 {% block content %}
 
-{% if object.id %}
+{% if object.pk %}
 <h1>{{object.name}} {{object.surname}}</h1>
 {% else %}
 <h1>Nuova madre</h1>
 {% endif %}
 
 
-{% load mothers_filters %}
+{% verbatim %}
 
 <h2>Dettagli</h2>
 <div class="container-fluid">
-    <form class="form-inline" ng-controller="MotherCtrl" role="form">
-    {% csrf_token %}
+    <form class="form-inline" role="form">
 
         <div class="col-sm-8 col-md-8">
-            <table id="rows-table" class="table table-no-border">
-                <tbody>
-                    {% for row in form.rows %}
-                        <tr>
-                            {% for field in row %}
-                            <td>
-                                {{ field.label_tag }}
-                            </td>
-                            {% if field in form.large_fields %}<td colspan="3">{% else %}<td>{% endif %}
-                                <div class="input-group" style="width:100%;">
-                                    {% if field in form.date_fields %}
-                                        {{ field|addclass:'form-control date-picker' }}
-                                        <label for="{{ field.id_for_label }}" class="input-group-addon btn">
-                                            <span class="glyphicon glyphicon-calendar"></span></label>
-                                    {% else %}
-                                        {{ field|addclass:'form-control' }}
-                                    {% endif %}
-                                </div>
-                            </td>
-                            {% endfor %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <table id="rows-table" class="table table-no-border"><tbody>
+                <tr>
+                    <td><label for="regDateInput">Data reg.:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="date" class="form-control date-picker" id="regDateInput" format='%d/%m/%Y' value={{mother.registration_date}}>
+                            <label for="regDateInput" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"/></label>
+                        </div>
+                    </td>
+
+                    <td><label for="operatorInput">Operatore:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <select ng-model="mother.operator"
+                                    ng-options="operator as operator.name for operator in operators track by operator.id"
+                                    id="operatorInput" class="form-control"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="nameInput">Nome:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="nameInput" placeholder="Nome" value={{mother.name}}>
+                        </div>
+                    </td>
+
+                    <td><label for="surnameInput">Cognome:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="surnameInput" placeholder="Cognome" value={{mother.surname}}>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="husbandSurnameInput">Cognome marito:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="husbandSurnameInput" placeholder="Cognome marito" value={{mother.husband_surname}}>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="birthPlaceInput">Luogo di nascita:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="birthPlaceInput" placeholder="Luogo di nascita" value={{mother.place_of_birth}}>
+                        </div>
+                    </td>
+
+                    <td><label for="birthDateInput">Data di nascita:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="date" class="form-control date-picker" id="birthDateInput" format='%d/%m/%Y' value={{mother.date_of_birth}}>
+                            <label for="birthDateInput" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"/></label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td> <label for="cityInput">Citta:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="cityInput" placeholder="Citta" value={{mother.city}}>
+                        </div>
+                    </td>
+
+                    <td> <label for="addressInput">Indirizzo:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="addressInput" placeholder="Indirizzo" value={{mother.address}}>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="phone1Input">Telefono 1:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="phone1Input" placeholder="Telefono" value={{mother.phone_1}}>
+                        </div>
+                    </td>
+
+                    <td><label for="phone2Input">Telefono 2:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="phone2Input" placeholder="Telefono" value={{mother.phone_2}}>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="residencyInput">Residenza:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="residencyInput" placeholder="Residenza" value={{mother.residency}}>
+                        </div>
+                    </td>
+
+                    <td><label for="originCountryInput">Nazione provenienza:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="originCountryInput" placeholder="Nazione provenienza" value={{mother.origin_country}}>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="academicInput">Titolo studi:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="academicInput" placeholder="Titolo studi" value={{mother.highest_academic_achievement}}>
+                        </div>
+                    </td>
+
+                    <td><label for="civilStatusInput">Stato civile:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="civilStatusInput" placeholder="Stato civile" value={{mother.civil_status}}>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="jobInput">Lavoro:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="jobInput" placeholder="Lavoro" value={{mother.job}}>
+                        </div>
+                    </td>
+
+                    <td><label for="husbandJobInput">Lavoro marito:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="text" class="form-control" id="husbandJobInput" placeholder="Lavoro marito" value={{mother.husband_job}}>
+                        </div>
+                    </td>
+                </tr>
+                 <tr>
+                    <td><label for="incomeInput">Reddito:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="number" class="form-control" id="incomeInput" value={{mother.income}}>
+                        </div>
+                    </td>
+
+                    <td><label for="expendituresInput">Spese fisse:</label></td>
+                    <td>
+                        <div class="input-group" style="width:100%;">
+                            <input type="number" class="form-control" id="expendituresInput" value={{mother.fixed_expenditures}}>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="notesInput">Osservazioni:</label></td>
+                    <td colspan="3">
+                        <div class="form-group" style="width:100%;">
+                            <input type="textarea" class="form-control summernote" id="notesInput" value={{mother.notes}}>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
         </div>
 
         <div class="col-sm-2 col-md-2">
-            <input id="save-mother-btn" class="btn btn-primary btn-lg btn-block" ng-click="modify_mother()" value="Salva" />
-            <input id="cancel-mother-detail-btn" class="btn btn-primary btn-lg btn-block" ng-click="reset_mother()" value="Annulla" />
+            <input id="save-mother-btn" class="btn btn-primary btn-lg btn-block" ng-click="save_mother()" value="Salva" />
+            <input id="reset-mother-detail-btn" class="btn btn-primary btn-lg btn-block" ng-click="reset_mother()" value="Annulla" />
             <input id="print-mother-btn" class="btn btn-primary btn-lg btn-block" ng-click="print_mother()" value="Stampa" />
         </div>
     </form>
@@ -55,14 +187,13 @@
 
 <h2>
     Bambini
-    <button id="add-child-btn" type="button" class="btn btn-default"
-            data-toggle="modal" data-target="#add-child-popup" data-backdrop="static">
+    <button id="add-child-btn" type="button" class="btn btn-default" ng-click="add_child()">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     </button>
 </h2>
 <div class="container-fluid">
     <div class="col-sm-8 col-md-8">
-        <table id="mother-detail-donations" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <table id="mother-detail-children" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
             <tr>
                 <th>Nome</th>
@@ -72,49 +203,72 @@
             </tr>
             </thead>
             <tbody>
-            {% for child in object.get_children %}
-            <tr>
-                <td>{{ child.get_name }}</td>
-                <td>{{ child.get_date_of_birth }}</td>
-                <td>{{ child.get_sex }}</td>
+            <tr ng-repeat="child in mother.children">
+                <td>{{ child.name }} ({{ child.id }})</td>
+                <td>{{ child.date_of_birth }}</td>
+                <td>{{ child.sex }}</td>
                 <td>
-                    <button id="edit-child-btn" type="button" class="btn btn-default">
+                    <button id="edit-child-btn" type="button" class="btn btn-default" ng-click="edit_child(child.id)">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                     </button>
 
-                    <button id="delete-child-btn" type="button" class="btn btn-default">
+                    <button id="delete-child-btn" type="button" class="btn btn-default" ng-click="delete_child(child.id)">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </button>
                 </td>
             </tr>
-            {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
 
-<div class="modal fade" id="add-child-popup" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
-            </div>
-            <div class="modal-body">
-                <form role="form">
-                    <div class="form-group">
-
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
+<script type="text/ng-template" id="question.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{title}}</h3>
     </div>
-</div>
+    <div class="modal-body">
+        <p>{{message}}</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancella</button>
+    </div>
+</script>
 
+<script type="text/ng-template" id="child-details.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{title}}</h3>
+    </div>
+    <div class="modal-body">
+        <form name="childForm">
+            <div class="form-group">
+                <label for="childNameInput">Nome:</label>
+                <input ng-model="child.name" type="textarea" class="form-control" id="childNameInput"
+                       placeholder="Nome" value={{child.name}} required>
+            </div>
+            <div class="form-group">
+                <label for="childBirthDateInput">Data di nascita:</label>
+                <div class="input-group" style="width:100%;">
+                    <input type="text" id="childBirthDateInput" ng-model="child.date_of_birth" required
+                           class="form-control" is-open="opened"
+                           uib-datepicker-popup="{{format}}" datepicker-options="dateOptions" close-on-date-selection="true"
+                           close-text="Chiudi" current-text="Oggi" clear-text="Azzera" popup-placement="auto bottom-right"/>
+                    <label for="childBirthDateInput" class="input-group-addon btn">
+                        <span ng-click="open($event)" class="glyphicon glyphicon-calendar"/>
+                    </label>
+                </div>
+            </div>
+             <div class="form-group">
+                <label for="childSexInput">Sesso:</label>
+                <select ng-model="child.sex" ng-options="g for g in genders" id="childSexInput" class="form-control" required/>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-disabled="childForm.$invalid" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancella</button>
+    </div>
+</script>
 
 <h2>
     Donazioni
@@ -137,13 +291,12 @@
         </thead>
 
         <tbody>
-        {% for donation in object.get_donations %}
-        <tr>
-            <td>{{ donation.get_date_of_donation }}</td>
-            <td>{{ donation.get_requested }}</td>
-            <td>{{ donation.get_given }}</td>
-            <td>{{ donation.get_amount }}</td>
-            <td>{{ donation.get_operator }}</td>
+        <tr ng-repeat="donation in mother.donations">
+            <td>{{ donation.date_of_donation }}</td>
+            <td>{{ donation.requested }}</td>
+            <td>{{ donation.given }}</td>
+            <td>{{ donation.amount }}</td>
+            <td>{{ donation.operator }}</td>
             <td>
                 <button id="edit-donation-btn" type="button" class="btn btn-default">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
@@ -154,10 +307,10 @@
                 </button>
             </td>
         </tr>
-        {% endfor %}
         </tbody>
         </table>
     </div>
 </div>
 
+{% endverbatim %}
 {% endblock %}

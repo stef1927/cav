@@ -1,5 +1,6 @@
 data/imported/
 data/exported/
+data/backup
 data/mothers.accdb
 data/mothers.sqlite
 data/sqlitebrowser-3.8.0/

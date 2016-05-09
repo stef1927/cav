@@ -14,42 +14,25 @@ class MotherSerializer(serializers.ModelSerializer):
                   'name', 'surname', 'date_of_birth', 'place_of_birth',
                   'registration_date', 'civil_status','origin_country', 'residency')
 
-# class MotherSerializer(serializers.ModelSerializer):
-#     children = serializers.PrimaryKeyRelatedField(many=True)
-#     #children = serializers.HyperlinkedIdentityField('children', view_name='children-list', lookup_field='children')
-#     #donations = serializers.HyperlinkedIdentityField('donations', view_name='donations-list', lookup_field='donations')
-#     #income = serializers.ModelSerializer.
-#     #'income', 'fixed_expenditures', 'operator',
-#
-#     class Meta:
-#         model = Mothers
-#         fields = fields = ('id', 'surname', 'name', 'date_of_birth', 'place_of_birth', 'civil_status',
-#                            'residency', 'origin_country', 'highest_academic_achievement', 'job',
-#                            'registration_date', 'husband_surname', 'husband_job', 'city', 'address',
-#                            'phone_1', 'phone_2', 'notes')
-
 
 class ChildSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source="get_name")
-    date_of_birth = serializers.CharField(source="get_date_of_birth")
-    sex = serializers.CharField(source="get_sex")
-    mother_name = serializers.StringRelatedField(source='mother')
-    mother_link = serializers.HyperlinkedRelatedField(source='mother', read_only='True', view_name='mother-details')
+    mother_name = serializers.StringRelatedField(source='mother', read_only='True')
 
     class Meta:
         model = Children
-        fields = ('id', 'name', 'date_of_birth', 'sex', 'mother_name', 'mother_link')
+        lookup_field = 'id'
+        fields = ('id', 'name', 'date_of_birth', 'sex', 'mother', 'mother_name')
 
 
 class DonationSerializer(serializers.ModelSerializer):
     amount = serializers.FloatField(source='get_amount', read_only=True)
     mother_name = serializers.StringRelatedField(source='mother')
-    mother_link = serializers.HyperlinkedRelatedField(source='mother', read_only='True', view_name='mother-details')
     operator = serializers.StringRelatedField()
 
     class Meta:
         model = Donations
-        fields = ('id', 'date_of_donation', 'requested', 'given', 'amount', 'mother_name', 'mother_link', 'operator')
+        lookup_field = 'id'
+        fields = ('id', 'date_of_donation', 'requested', 'given', 'amount', 'mother', 'mother_name', 'operator')
 
 
 class OperatorSerializer(serializers.ModelSerializer):
@@ -57,3 +40,19 @@ class OperatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Operators
         fields = ('id', 'name')
+
+
+class MotherDetailsSerializer(serializers.ModelSerializer):
+    full_name = serializers.CharField(source='get_full_name', read_only=True)
+    absolute_url = serializers.CharField(source='get_absolute_url', read_only=True)
+    children = ChildSerializer(read_only=True, many=True)
+    donations = DonationSerializer(read_only=True, many=True)
+    operator = OperatorSerializer(read_only=True, many=False)
+
+    class Meta:
+        model = Mothers
+        fields = fields = ('full_name',  'absolute_url', 'children', 'donations', 'operator',
+                           'id', 'surname', 'name', 'date_of_birth', 'place_of_birth', 'civil_status',
+                           'residency', 'origin_country', 'highest_academic_achievement', 'job',
+                           'registration_date', 'husband_surname', 'husband_job', 'city', 'address',
+                           'phone_1', 'phone_2', 'notes')
