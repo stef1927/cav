@@ -141,7 +141,7 @@ class Donations(models.Model):
     date_of_donation = models.DateField(blank=False, null=False)
     requested = models.TextField(blank=True, null=True)
     given = models.TextField(blank=True, null=True)
-    amount = models.FloatField(blank=True, null=True)
+    amount = models.FloatField(blank=True, null=True, default=0.0)
     mother = models.ForeignKey(Mothers, db_column='mother', null=False, default=0, on_delete=models.SET_DEFAULT,
                                related_name='donations')
     operator = models.ForeignKey(Operators, db_column='operator', null=False, default=0, on_delete=models.SET_DEFAULT)

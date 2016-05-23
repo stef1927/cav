@@ -25,14 +25,14 @@ class ChildSerializer(serializers.ModelSerializer):
 
 
 class DonationSerializer(serializers.ModelSerializer):
-    amount = serializers.FloatField(source='get_amount', read_only=True)
     mother_name = serializers.StringRelatedField(source='mother')
-    operator = serializers.StringRelatedField()
+    operator_name = serializers.StringRelatedField(source='operator')
 
     class Meta:
         model = Donations
         lookup_field = 'id'
-        fields = ('id', 'date_of_donation', 'requested', 'given', 'amount', 'mother', 'mother_name', 'operator')
+        fields = ('id', 'date_of_donation', 'requested', 'given', 'amount',
+                  'mother', 'mother_name', 'operator', 'operator_name')
 
 
 class OperatorSerializer(serializers.ModelSerializer):

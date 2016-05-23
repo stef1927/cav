@@ -124,13 +124,14 @@ app.controller('MotherDetailsCtrl',  function($scope, $location, $resource, $uib
                     $log.info("Creating " + JSON.stringify(child));
                     return child;
                 },
-            title: function () {
-                return 'Nuovo bimbo';
-            },
-            backend_date_format: function () {
-                return $scope.backend_date_format;
+                title: function () {
+                    return 'Nuovo bimbo';
+                },
+                backend_date_format: function () {
+                    return $scope.backend_date_format;
+                }
             }
-        }});
+        });
 
         modalInstance.result.then(function (child) {
             var mother = $scope.mother;
@@ -144,7 +145,6 @@ app.controller('MotherDetailsCtrl',  function($scope, $location, $resource, $uib
             });
         });
     };
-
 
     $scope.edit_child = function(id) {
         Child.get({id: id}, function(child) {
@@ -166,7 +166,8 @@ app.controller('MotherDetailsCtrl',  function($scope, $location, $resource, $uib
                     backend_date_format: function () {
                         return $scope.backend_date_format;
                     }
-            }});
+                }
+            });
 
             modalInstance.result.then(function (child) {
                 $log.info("Saving " + JSON.stringify(child));
@@ -193,11 +194,12 @@ app.controller('MotherDetailsCtrl',  function($scope, $location, $resource, $uib
                 resolve: {
                     title: function () {
                         return 'Cancella bimb' + (child.sex == 'F' ? 'a' : 'o');
-                },
-                message: function () {
-                    return 'Si desidera cancellare ' + child.name + '?';
-                },
-            }});
+                    },
+                    message: function () {
+                        return 'Si desidera cancellare ' + child.name + '?';
+                    },
+                }
+            });
 
             modalInstance.result.then(function () {
                child.$delete(function(c) {
@@ -211,11 +213,112 @@ app.controller('MotherDetailsCtrl',  function($scope, $location, $resource, $uib
     };
 
     // Donations
-    $scope.donation = {};
 
-    $scope.save_donation = function() {
-        //TODO -validation and add donation to mother
-        $scope.mother.save();
+    $scope.add_donation = function() {
+        var modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: 'donation-details.html',
+            controller: 'DonationDetailsCtrl',
+            size: 'lg',
+            resolve: {
+                donation: function () {
+                    var donation = { mother: $scope.mother.id, date_of_donation: $scope.today,
+                                     offered: '', given: '', amount: 0.00, operator: {} }; //TODO - add current user as operator
+                    $log.info("Creating " + JSON.stringify(donation));
+                    return donation;
+                },
+                title: function () {
+                    return 'Nuova donazione';
+                },
+                operators: function () {
+                    return $scope.operators;
+                },
+                backend_date_format: function () {
+                    return $scope.backend_date_format;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (donation) {
+            var mother = $scope.mother;
+            $log.info("Saving " + JSON.stringify(donation));
+
+            Donations.save([], donation, function(d) {
+               $log.info("Donation saved: " + JSON.stringify(d));
+               $scope.mother.donations.push(d);
+            }, function(err) {
+                alert(JSON.stringify(err));
+            });
+        });
+    };
+
+    $scope.edit_donation = function(id) {
+        Donation.get({id: id}, function(donation) {
+            donation.date_of_donation = new Date(moment(donation.date_of_donation, $scope.backend_date_format).toISOString());
+            donation.amount = parseFloat(donation.amount);
+            $log.info('Retrieved for modification: ' + JSON.stringify(donation));
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'donation-details.html',
+                controller: 'DonationDetailsCtrl',
+                size: 'lg',
+                resolve: {
+                    donation: function () {
+                        return donation;
+                    },
+                    title: function () {
+                        return 'Modifica donazione';
+                    },
+                    operators: function () {
+                        return $scope.operators;
+                    },
+                    backend_date_format: function () {
+                        return $scope.backend_date_format;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (donation) {
+                $log.info("Saving " + JSON.stringify(donation));
+
+                donation.$update(function(d) {
+                   $log.info("Donation modified: " + JSON.stringify(d));
+                   $scope.mother.donations.forEach(function(dd, i) { if (dd.id == d.id) $scope.mother.donations[i] = d; });
+                }, function(err) {
+                    alert(JSON.stringify(err));
+                });
+            });
+        });
+    };
+
+    $scope.delete_donation = function(id) {
+        var donation = Donation.get({id: id}, function(donation) {
+            $log.info("Deleting " + JSON.stringify(donation));
+
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'question.html',
+                controller: 'QuestionCtrl',
+                size: 'lg',
+                resolve: {
+                    title: function () {
+                        return 'Cancella donazione?';
+                    },
+                    message: function () {
+                        return 'Si desidera cancellare questa donazione?';
+                    },
+                }
+            });
+
+            modalInstance.result.then(function () {
+               donation.$delete(function(d) {
+                   $log.info("Donation deleted: " + JSON.stringify(d));
+                   $scope.mother.donations = $scope.mother.donations.filter(function(d) { return d.id != id });
+               }, function(err) {
+                  alert(JSON.stringify(err));
+               });
+            });
+        });
     };
 
     $scope.reset_donation = function() {
@@ -254,6 +357,45 @@ app.controller('ChildDetailsCtrl', function ($scope, $log, $uibModalInstance, ch
     $scope.opened = false;
     $scope.clear = function () {
         $scope.child.date_of_birth = null;
+    };
+
+    $scope.open = function($event) {
+        $log.info("Opening");
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope.opened = true;
+        $log.info("Opened");
+    };
+
+    $scope.dateOptions = {
+        formatYear: 'yyyy',
+        startingDay: 1
+    };
+
+    $scope.formats = ['dd/MM/yyyy'];
+    $scope.format = $scope.formats[0];
+});
+
+app.controller('DonationDetailsCtrl', function ($scope, $log, $uibModalInstance, donation, title, operators, backend_date_format) {
+    $scope.donation = donation;
+    $scope.title = title;
+    $scope.operators = operators;
+
+    $scope.ok = function () {
+        var donation = $scope.donation;
+        donation.date_of_donation = moment(donation.date_of_donation).format(backend_date_format);
+        $uibModalInstance.close(donation);
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+
+    $scope.donation_data_insufficient = function() { return donation.given.length == 0 && donation.amount == 0; }
+
+    $scope.opened = false;
+    $scope.clear = function () {
+        $scope.donation.date_of_donation = null;
     };
 
     $scope.open = function($event) {

@@ -15,7 +15,7 @@
 
 <h2>Dettagli</h2>
 <div class="container-fluid">
-    <form class="form-inline" role="form">
+    <form class="form-inline" role="form" name="motherForm">
 
         <div class="col-sm-8 col-md-8">
             <table id="rows-table" class="table table-no-border"><tbody>
@@ -272,7 +272,7 @@
 
 <h2>
     Donazioni
-    <button id="add-donation-btn" type="button" class="btn btn-default">
+    <button id="add-donation-btn" type="button" class="btn btn-default" ng-click="add_donation()">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     </button>
 </h2>
@@ -298,11 +298,11 @@
             <td>{{ donation.amount }}</td>
             <td>{{ donation.operator }}</td>
             <td>
-                <button id="edit-donation-btn" type="button" class="btn btn-default">
+                <button id="edit-donation-btn" type="button" class="btn btn-default" ng-click="edit_donation(donation.id)">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                 </button>
 
-                <button id="delete-donation-btn" type="button" class="btn btn-default">
+                <button id="delete-donation-btn" type="button" class="btn btn-default" ng-click="delete_donation(donation.id)">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </button>
             </td>
@@ -311,6 +311,54 @@
         </table>
     </div>
 </div>
+
+<script type="text/ng-template" id="donation-details.html">
+    <div class="modal-header">
+        <h3 class="modal-title">{{title}}</h3>
+    </div>
+    <div class="modal-body">
+        <form name="donationForm">
+            <div class="form-group">
+                <label for="donationDateInput">Data:</label>
+                <div class="input-group" style="width:100%;">
+                    <input type="text" id="donationDateInput" ng-model="donation.date_of_donation" required
+                           class="form-control" is-open="opened"
+                           uib-datepicker-popup="{{format}}" datepicker-options="dateOptions" close-on-date-selection="true"
+                           close-text="Chiudi" current-text="Oggi" clear-text="Azzera" popup-placement="auto bottom-right"/>
+                    <label for="donationDateInput" class="input-group-addon btn">
+                        <span ng-click="open($event)" class="glyphicon glyphicon-calendar"/>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="donationRequestedInput">Richiesto:</label>
+                <input ng-model="donation.requested" type="text" class="form-control" id="donationRequestedInput"
+                       placeholder="Richiesto" value={{donation.requested}}>
+            </div>
+            <div class="form-group">
+                <label for="donationGivenInput">Offerto:</label>
+                <input ng-model="donation.given" type="text" class="form-control" id="donationGivenInput"
+                       placeholder="Offerto" value={{donation.given}} required="donation_data_insufficient()">
+            </div>
+            <div class="form-group">
+                <label for="donationAmountInput">Importo (EUR):</label>
+                <input ng-model="donation.amount" type="number" min="0" step="10" class="form-control" id="donationAmountInput"
+                       placeholder="0" value={{donation.amount}} required="donation_data_insufficient()">
+            </div>
+
+             <div class="form-group">
+                <label for="donationOperatorInput">Operatore:</label>
+                <select ng-model="donation.operator"
+                        ng-options="operator.id as operator.name for operator in operators"
+                        id="donationOperatorInput" class="form-control" required/>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-disabled="donationForm.$invalid" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancella</button>
+    </div>
+</script>
 
 {% endverbatim %}
 {% endblock %}
