@@ -93,13 +93,36 @@ app.controller('MotherDetailsCtrl',  function($scope, $location, $resource, $uib
                                               Mother, Child, Donation,
                                               Mothers, Children, Donations, Operators) {
 
-    $scope.mother = Mother.get({id: $location.path().split("/")[2]});
     $scope.operators = Operators.query();
     $scope.backend_date_format = 'DD/MM/YYYY';
+
+    Mother.get({id: $location.path().split("/")[2]}, function(mother) {
+        mother.registration_date = new Date(moment(mother.registration_date, $scope.backend_date_format).toISOString());
+        mother.date_of_birth = new Date(moment(mother.date_of_birth, $scope.backend_date_format).toISOString());
+        $scope.mother = mother;
+    });
+
     $scope.today = new Date();
+    $scope.dateOptions = { formatYear: 'yyyy', startingDay: 1 };
+    $scope.dateFormats = ['dd/MM/yyyy'];
+    $scope.dateFormat = $scope.dateFormats[0];
+
+    $scope.opened1 = false;
+    $scope.opened2 = false;
+    $scope.open = function($event, opened) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope[opened] = true;
+    };
 
     $scope.save_mother = function() {
-        $scope.mother.$save();
+        $scope.mother.registration_date = moment($scope.mother.registration_date).format($scope.backend_date_format);
+        $scope.mother.date_of_birth = moment($scope.mother.date_of_birth).format($scope.backend_date_format);
+        $scope.mother.$update(function(mother) {
+           $log.info("Mother saved: " + JSON.stringify(mother));
+        }, function(err) {
+            alert(JSON.stringify(err));
+        });
     };
 
     $scope.reset_mother = function() {
@@ -117,6 +140,7 @@ app.controller('MotherDetailsCtrl',  function($scope, $location, $resource, $uib
             animation: true,
             templateUrl: 'child-details.html',
             controller: 'ChildDetailsCtrl',
+            scope: $scope,
             size: 'lg',
             resolve: {
                 child: function () {
@@ -154,6 +178,7 @@ app.controller('MotherDetailsCtrl',  function($scope, $location, $resource, $uib
                 animation: true,
                 templateUrl: 'child-details.html',
                 controller: 'ChildDetailsCtrl',
+                scope: $scope,
                 size: 'lg',
                 resolve: {
                     child: function () {
@@ -219,6 +244,7 @@ app.controller('MotherDetailsCtrl',  function($scope, $location, $resource, $uib
             animation: true,
             templateUrl: 'donation-details.html',
             controller: 'DonationDetailsCtrl',
+            scope: $scope,
             size: 'lg',
             resolve: {
                 donation: function () {
@@ -261,6 +287,7 @@ app.controller('MotherDetailsCtrl',  function($scope, $location, $resource, $uib
                 animation: true,
                 templateUrl: 'donation-details.html',
                 controller: 'DonationDetailsCtrl',
+                scope: $scope,
                 size: 'lg',
                 resolve: {
                     donation: function () {
@@ -354,26 +381,16 @@ app.controller('ChildDetailsCtrl', function ($scope, $log, $uibModalInstance, ch
         $uibModalInstance.dismiss('cancel');
     };
 
-    $scope.opened = false;
-    $scope.clear = function () {
-        $scope.child.date_of_birth = null;
-    };
+//    $scope.clear = function () {
+//        $scope.child.date_of_birth = null;
+//    };
 
+    $scope.opened = false;
     $scope.open = function($event) {
-        $log.info("Opening");
         $event.preventDefault();
         $event.stopPropagation();
         $scope.opened = true;
-        $log.info("Opened");
     };
-
-    $scope.dateOptions = {
-        formatYear: 'yyyy',
-        startingDay: 1
-    };
-
-    $scope.formats = ['dd/MM/yyyy'];
-    $scope.format = $scope.formats[0];
 });
 
 app.controller('DonationDetailsCtrl', function ($scope, $log, $uibModalInstance, donation, title, operators, backend_date_format) {
@@ -393,24 +410,14 @@ app.controller('DonationDetailsCtrl', function ($scope, $log, $uibModalInstance,
 
     $scope.donation_data_insufficient = function() { return donation.given.length == 0 && donation.amount == 0; }
 
-    $scope.opened = false;
-    $scope.clear = function () {
-        $scope.donation.date_of_donation = null;
-    };
+//    $scope.clear = function () {
+//        $scope.donation.date_of_donation = null;
+//    };
 
+    $scope.opened = false;
     $scope.open = function($event) {
-        $log.info("Opening");
         $event.preventDefault();
         $event.stopPropagation();
         $scope.opened = true;
-        $log.info("Opened");
     };
-
-    $scope.dateOptions = {
-        formatYear: 'yyyy',
-        startingDay: 1
-    };
-
-    $scope.formats = ['dd/MM/yyyy'];
-    $scope.format = $scope.formats[0];
 });

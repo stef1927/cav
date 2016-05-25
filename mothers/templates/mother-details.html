@@ -23,15 +23,21 @@
                     <td><label for="regDateInput">Data reg.:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="date" class="form-control date-picker" id="regDateInput" format='%d/%m/%Y' value={{mother.registration_date}}>
-                            <label for="regDateInput" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"/></label>
+                            <input type="text" id="regDateInput" ng-model="mother.registration_date" required
+                                   class="form-control" is-open="opened1"
+                                   uib-datepicker-popup="{{dateFormat}}" datepicker-options="dateOptions"
+                                   close-on-date-selection="true" close-text="Chiudi" current-text="Oggi" clear-text="Azzera"
+                                   popup-placement="auto bottom-right"/>
+                            <label for="regDateInput" class="input-group-addon btn">
+                                <span ng-click="open($event, 'opened1')" class="glyphicon glyphicon-calendar"/>
+                            </label>
                         </div>
                     </td>
 
                     <td><label for="operatorInput">Operatore:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <select ng-model="mother.operator"
+                            <select ng-model="mother.operator" required
                                     ng-options="operator as operator.name for operator in operators track by operator.id"
                                     id="operatorInput" class="form-control"/>
                         </div>
@@ -41,14 +47,16 @@
                     <td><label for="nameInput">Nome:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="nameInput" placeholder="Nome" value={{mother.name}}>
+                            <input type="text" class="form-control" id="nameInput" placeholder="Nome"
+                                   ng-model="mother.name" required>
                         </div>
                     </td>
 
                     <td><label for="surnameInput">Cognome:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="surnameInput" placeholder="Cognome" value={{mother.surname}}>
+                            <input type="text" class="form-control" id="surnameInput" placeholder="Cognome"
+                                   ng-model="mother.surname" rquired>
                         </div>
                     </td>
                 </tr>
@@ -56,7 +64,8 @@
                     <td><label for="husbandSurnameInput">Cognome marito:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="husbandSurnameInput" placeholder="Cognome marito" value={{mother.husband_surname}}>
+                            <input type="text" class="form-control" id="husbandSurnameInput" placeholder="Cognome marito"
+                                   ng-model="mother.husband_surname">
                         </div>
                     </td>
                 </tr>
@@ -64,15 +73,22 @@
                     <td><label for="birthPlaceInput">Luogo di nascita:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="birthPlaceInput" placeholder="Luogo di nascita" value={{mother.place_of_birth}}>
+                            <input type="text" class="form-control" id="birthPlaceInput" placeholder="Luogo di nascita"
+                                   ng-model="mother.place_of_birth" required>
                         </div>
                     </td>
 
                     <td><label for="birthDateInput">Data di nascita:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="date" class="form-control date-picker" id="birthDateInput" format='%d/%m/%Y' value={{mother.date_of_birth}}>
-                            <label for="birthDateInput" class="input-group-addon btn"><span class="glyphicon glyphicon-calendar"/></label>
+                            <input type="text" id="birthDateInput" ng-model="mother.date_of_birth" required
+                                   class="form-control" is-open="opened2"
+                                   uib-datepicker-popup="{{dateFormat}}" datepicker-options="dateOptions"
+                                   close-on-date-selection="true" close-text="Chiudi" current-text="Oggi" clear-text="Azzera"
+                                   popup-placement="auto bottom-right"/>
+                            <label for="birthDateInput" class="input-group-addon btn">
+                                <span ng-click="open($event, 'opened2')" class="glyphicon glyphicon-calendar"/>
+                            </label>
                         </div>
                     </td>
                 </tr>
@@ -80,14 +96,16 @@
                     <td> <label for="cityInput">Citta:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="cityInput" placeholder="Citta" value={{mother.city}}>
+                            <input type="text" class="form-control" id="cityInput" placeholder="Citta"
+                                   ng-model="mother.city">
                         </div>
                     </td>
 
                     <td> <label for="addressInput">Indirizzo:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="addressInput" placeholder="Indirizzo" value={{mother.address}}>
+                            <input type="text" class="form-control" id="addressInput" placeholder="Indirizzo"
+                                   ng-model="mother.address">
                         </div>
                     </td>
                 </tr>
@@ -95,14 +113,16 @@
                     <td><label for="phone1Input">Telefono 1:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="phone1Input" placeholder="Telefono" value={{mother.phone_1}}>
+                            <input type="text" class="form-control" id="phone1Input" placeholder="Telefono"
+                                   ng-model="mother.phone_1" required>
                         </div>
                     </td>
 
                     <td><label for="phone2Input">Telefono 2:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="phone2Input" placeholder="Telefono" value={{mother.phone_2}}>
+                            <input type="text" class="form-control" id="phone2Input" placeholder="Telefono"
+                                   ng-model="mother.phone_2">
                         </div>
                     </td>
                 </tr>
@@ -110,14 +130,16 @@
                     <td><label for="residencyInput">Residenza:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="residencyInput" placeholder="Residenza" value={{mother.residency}}>
+                            <input type="text" class="form-control" id="residencyInput" placeholder="Residenza"
+                                   ng-model="mother.residency">
                         </div>
                     </td>
 
                     <td><label for="originCountryInput">Nazione provenienza:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="originCountryInput" placeholder="Nazione provenienza" value={{mother.origin_country}}>
+                            <input type="text" class="form-control" id="originCountryInput" placeholder="Nazione provenienza"
+                                   ng-model="mother.origin_country" required>
                         </div>
                     </td>
                 </tr>
@@ -125,14 +147,16 @@
                     <td><label for="academicInput">Titolo studi:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="academicInput" placeholder="Titolo studi" value={{mother.highest_academic_achievement}}>
+                            <input type="text" class="form-control" id="academicInput" placeholder="Titolo studi"
+                                   ng-model="mother.highest_academic_achievement">
                         </div>
                     </td>
 
                     <td><label for="civilStatusInput">Stato civile:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="civilStatusInput" placeholder="Stato civile" value={{mother.civil_status}}>
+                            <input type="text" class="form-control" id="civilStatusInput" placeholder="Stato civile"
+                                   ng-model="mother.civil_status">
                         </div>
                     </td>
                 </tr>
@@ -140,14 +164,16 @@
                     <td><label for="jobInput">Lavoro:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="jobInput" placeholder="Lavoro" value={{mother.job}}>
+                            <input type="text" class="form-control" id="jobInput" placeholder="Lavoro"
+                                   ng-model="mother.job">
                         </div>
                     </td>
 
                     <td><label for="husbandJobInput">Lavoro marito:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="text" class="form-control" id="husbandJobInput" placeholder="Lavoro marito" value={{mother.husband_job}}>
+                            <input type="text" class="form-control" id="husbandJobInput" placeholder="Lavoro marito"
+                                   ng-model="mother.husband_job">
                         </div>
                     </td>
                 </tr>
@@ -155,14 +181,14 @@
                     <td><label for="incomeInput">Reddito:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="number" class="form-control" id="incomeInput" value={{mother.income}}>
+                            <input type="number" class="form-control" id="incomeInput" ng-model="mother.income">
                         </div>
                     </td>
 
                     <td><label for="expendituresInput">Spese fisse:</label></td>
                     <td>
                         <div class="input-group" style="width:100%;">
-                            <input type="number" class="form-control" id="expendituresInput" value={{mother.fixed_expenditures}}>
+                            <input type="number" class="form-control" id="expendituresInput" ng-model="mother.fixed_expenditures">
                         </div>
                     </td>
                 </tr>
@@ -170,7 +196,7 @@
                     <td><label for="notesInput">Osservazioni:</label></td>
                     <td colspan="3">
                         <div class="form-group" style="width:100%;">
-                            <input type="textarea" class="form-control summernote" id="notesInput" value={{mother.notes}}>
+                            <input type="textarea" class="form-control summernote" id="notesInput" ng-model="mother.notes">
                         </div>
                     </td>
                 </tr>
@@ -178,9 +204,12 @@
         </div>
 
         <div class="col-sm-2 col-md-2">
-            <input id="save-mother-btn" class="btn btn-primary btn-lg btn-block" ng-click="save_mother()" value="Salva" />
-            <input id="reset-mother-detail-btn" class="btn btn-primary btn-lg btn-block" ng-click="reset_mother()" value="Annulla" />
-            <input id="print-mother-btn" class="btn btn-primary btn-lg btn-block" ng-click="print_mother()" value="Stampa" />
+            <input id="save-mother-btn" class="btn btn-primary btn-lg btn-block"
+                   ng-disabled="motherForm.$invalid" ng-click="save_mother()" value="Salva" />
+            <input id="reset-mother-detail-btn" class="btn btn-primary btn-lg btn-block"
+                   ng-click="reset_mother()" value="Annulla" />
+            <input id="print-mother-btn" class="btn btn-primary btn-lg btn-block"
+                   ng-click="print_mother()" value="Stampa" />
         </div>
     </form>
 </div>
@@ -204,7 +233,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="child in mother.children">
-                <td>{{ child.name }} ({{ child.id }})</td>
+                <td>{{ child.name }}</td>
                 <td>{{ child.date_of_birth }}</td>
                 <td>{{ child.sex }}</td>
                 <td>
@@ -251,8 +280,9 @@
                 <div class="input-group" style="width:100%;">
                     <input type="text" id="childBirthDateInput" ng-model="child.date_of_birth" required
                            class="form-control" is-open="opened"
-                           uib-datepicker-popup="{{format}}" datepicker-options="dateOptions" close-on-date-selection="true"
-                           close-text="Chiudi" current-text="Oggi" clear-text="Azzera" popup-placement="auto bottom-right"/>
+                           uib-datepicker-popup="{{$parent.dateFormat}}" datepicker-options="$parent.dateOptions"
+                           close-on-date-selection="true" close-text="Chiudi" current-text="Oggi" clear-text="Azzera"
+                           popup-placement="auto bottom-right"/>
                     <label for="childBirthDateInput" class="input-group-addon btn">
                         <span ng-click="open($event)" class="glyphicon glyphicon-calendar"/>
                     </label>
@@ -323,8 +353,9 @@
                 <div class="input-group" style="width:100%;">
                     <input type="text" id="donationDateInput" ng-model="donation.date_of_donation" required
                            class="form-control" is-open="opened"
-                           uib-datepicker-popup="{{format}}" datepicker-options="dateOptions" close-on-date-selection="true"
-                           close-text="Chiudi" current-text="Oggi" clear-text="Azzera" popup-placement="auto bottom-right"/>
+                           uib-datepicker-popup="{{$parent.dateFormat}}" datepicker-options="$parent.dateOptions"
+                           close-on-date-selection="true" close-text="Chiudi" current-text="Oggi" clear-text="Azzera"
+                           popup-placement="auto bottom-right"/>
                     <label for="donationDateInput" class="input-group-addon btn">
                         <span ng-click="open($event)" class="glyphicon glyphicon-calendar"/>
                     </label>
